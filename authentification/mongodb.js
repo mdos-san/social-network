@@ -18,6 +18,11 @@ const mongoInterface = {
         const myColl = myDB.collection(collection);
         return myColl.findOne(query);
     },
+    del: (collection, query) => {
+        const myDB = client.db(DB);
+        const myColl = myDB.collection(collection);
+        return myColl.deleteMany(query);
+    },
     deleteOne: (collection, query) => {
         const myDB = client.db(DB);
         const myColl = myDB.collection(collection);
