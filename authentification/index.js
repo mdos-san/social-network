@@ -1,5 +1,4 @@
-// mongodb
-const { insertDocument, init, close, findOne } = require("./mongodb");
+const { Database } = require("database");
 
 // bcrypt
 const bcrypt = require('bcrypt');
@@ -25,38 +24,33 @@ app.get('/', (_, res) => {
 })
 
 app.post('/setup', async (_, res) => {
-    await init();
-
-    const adminUser = await findOne('users', { login: "admin" });
+    const userRepositories = Database.getRepositories().userRepository;
+    const adminUser = await userRepositories.findUserByLogin("admin");
     if (adminUser) {
         res.statusCode = 400;
         res.end();
-        await close();
         return;
     }
 
     const hashPassword = await bcrypt.hash("admin", saltRounds);
 
-    await insertDocument("users", {
+    await userRepositories.createUser({
         login: "admin",
         password: hashPassword,
     })
 
     res.statusCode = 200;
     res.end();
-
-    await close();
 })
 
 app.post('/session', async (req, res) => {
-    await init();
-
     const { login, password } = req.body;
-    const user = await findOne('users', { login });
+
+    const userRepository = Database.getRepositories().userRepository;
+    const user = await userRepository.findUserByLogin(login);
     if (!user) {
         res.statusCode = 400;
         res.end();
-        await close();
         return;
     }
 
@@ -64,31 +58,38 @@ app.post('/session', async (req, res) => {
     if (!isCorrect) {
         res.statusCode = 400;
         res.end();
-        await close();
         return;
     }
+
+    const sessionRepository = Database.getRepositories().sessionRepository;
 
     // Cookie session
     let sessionCookie = randomString(256);
     res.cookie('session', sessionCookie, { maxAge: 900000, httpOnly: true });
 
-    await insertDocument("sessions", {
+    await sessionRepository.createSession({
         login: user.login,
         session: sessionCookie,
     })
 
     res.statusCode = 200;
     res.end();
-    await close();
 })
 
 let server;
 
 module.exports = {
-    startServer: () => {
+    startServer: async () => {
+        console.log("[Database]: init...")
+        await Database.init();
+        console.log("[Database]: OK")
+
         server = app.listen(port, () => {
             console.log(`Authentification module is running on port ${port}`)
         })
     },
-    closeServer: () => server.close(),
+    closeServer: async () => {
+      await Database.close();
+      await server.close();
+    },
 }
