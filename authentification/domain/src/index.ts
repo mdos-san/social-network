@@ -1,16 +1,10 @@
 import { Database } from "database";
-import { randomBytes } from 'crypto';
 import bcrypt from 'bcrypt';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import { Server } from "http";
 import createDefaultAdminFeature from "./CreateDefaultAdminFeatureImpl";
-
-const saltRounds = 10;
-
-function randomString(length: number) {
-  return randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
-}
+import createSessionFeature from "./CreateSessionFeatureImpl";
 
 const app = express()
 const port = 3000
@@ -36,33 +30,15 @@ app.post('/setup', async (_, res) => {
 app.post('/session', async (req, res) => {
   const { login, password } = req.body;
 
-  const userRepository = Database.getRepositories().userRepository;
-  const user = await userRepository.findUserByLogin(login);
-  if (!user) {
+  const { success, sessionId } = await createSessionFeature(Database, login, password);
+
+  if (success) {
+    res.statusCode = 200;
+    res.cookie('session', sessionId, { maxAge: 900000, httpOnly: true });
+  } else {
     res.statusCode = 400;
-    res.end();
-    return;
   }
 
-  const isCorrect = await bcrypt.compare(password, user.password)
-  if (!isCorrect) {
-    res.statusCode = 400;
-    res.end();
-    return;
-  }
-
-  const sessionRepository = Database.getRepositories().sessionRepository;
-
-  // Cookie session
-  let sessionCookie = randomString(256);
-  res.cookie('session', sessionCookie, { maxAge: 900000, httpOnly: true });
-
-  await sessionRepository.createSession({
-    userId: user.id,
-    sessionId: sessionCookie,
-  })
-
-  res.statusCode = 200;
   res.end();
 })
 
