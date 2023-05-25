@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "types": "types",
   "scripts": {
-    "build:ts": "tsc",
+    "build": "tsc",
     "test": "npm run test:set-up && jest && npm run test:tear-down",
     "test:set-up": "./scripts/test:set-up",
     "test:tear-down": "./scripts/test:tear-down"
@@ -20,5 +20,8 @@
     "babel-jest": "^29.5.0",
     "jest": "^29.5.0",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "mongodb": "^5.5.0"
   }
 }
