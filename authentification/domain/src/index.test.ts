@@ -1,6 +1,5 @@
-const { expect } = require('@jest/globals');
-const request = require('supertest');
-const { startServer, closeServer } = require("./index.js");
+import request from 'supertest';
+import { startServer, closeServer } from "./index";
 
 describe("ExpressJS", () => {
     it("should be initialised", (done) => {
