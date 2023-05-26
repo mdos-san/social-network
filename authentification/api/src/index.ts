@@ -1,1 +1,1 @@
-export { default as default } from "./express"
+export { default as ExpressApiProvider } from "./express"

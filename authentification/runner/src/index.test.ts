@@ -1,10 +1,11 @@
 import request from 'supertest';
 import { start, stop } from "./index";
 
-describe("ExpressJS", () => {
+describe("Module", () => {
   it("should be initialised", async () => {
     await start();
 
+    // Act
     const response = await request("http://localhost:3000")
       .get("/");
 
