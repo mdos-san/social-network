@@ -1,4 +1,4 @@
-import { UserModel, UserRepository } from "domain/types";
+import { UserModel, UserRepository } from "core";
 import { Db } from "mongodb";
 
 const COLLECTION = "user";

@@ -6,5 +6,9 @@ export interface CreateSessionFeatureResult {
 }
 
 export interface CreateSessionFeature {
-  (database: DatabaseProvider, login: string, password: string): Promise<CreateSessionFeatureResult>
+  (login: string, password: string): Promise<CreateSessionFeatureResult>
+}
+
+export interface CreateSessionFeatureFactory {
+  (database: DatabaseProvider):  CreateSessionFeature
 }

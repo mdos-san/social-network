@@ -5,5 +5,9 @@ export interface CreateDefaultAdminFeatureResult {
 }
 
 export interface CreateDefaultAdminFeature {
-  (database: DatabaseProvider): Promise<CreateDefaultAdminFeatureResult>
+  (): Promise<CreateDefaultAdminFeatureResult>
+}
+
+export interface CreateDefaultAdminFeatureFactory {
+  (database: DatabaseProvider): CreateDefaultAdminFeature
 }

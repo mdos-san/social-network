@@ -1,4 +1,4 @@
-import { CreateSessionFeature, CreateSessionFeatureResult } from "./CreateSessionFeature";
+import { CreateSessionFeatureFactory, CreateSessionFeatureResult } from "./CreateSessionFeature";
 import { randomBytes } from 'crypto';
 import bcrypt from 'bcrypt';
 
@@ -6,7 +6,7 @@ function randomString(length: number) {
   return randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
 }
 
-const createSessionFeature: CreateSessionFeature = async (database, login, password) => {
+const createSessionFeatureFactory: CreateSessionFeatureFactory = (database) => async (login, password) => {
   const result: CreateSessionFeatureResult = {
       success: true,
       sessionId: ""
@@ -39,4 +39,4 @@ const createSessionFeature: CreateSessionFeature = async (database, login, passw
   return result;
 }
 
-export default createSessionFeature;
+export default createSessionFeatureFactory;

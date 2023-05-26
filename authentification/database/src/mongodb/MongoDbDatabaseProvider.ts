@@ -2,7 +2,7 @@
 import { MongoClient } from 'mongodb';
 import MongoDbSessionRepository from './MongoDbSessionRepository';
 import MongoDbUserRepository from './MongoDbUserRepository';
-import { DatabaseProvider, SessionRepository, UserRepository } from 'domain/types';
+import { DatabaseProvider, SessionRepository, UserRepository } from 'core';
 
 let client: MongoClient;
 const DB = "authentification";

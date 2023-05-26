@@ -1,0 +1,57 @@
+import request from 'supertest';
+import { start, stop } from "./index";
+
+describe("ExpressJS", () => {
+  it("should be initialised", async () => {
+    await start();
+
+    const response = await request("http://localhost:3000")
+      .get("/");
+
+    expect(response.statusCode).toBe(200);
+
+    await stop();
+  });
+
+  it("can setup a default admin", async () => {
+    // Arrangement
+    await start();
+
+    // Act
+    const response = await request("http://localhost:3000")
+      .post("/setup");
+
+    // Assert: Http response
+    expect(response.statusCode).toBe(200);
+
+    // Act
+    await request("http://localhost:3000")
+      .post("/setup")
+      .expect(400);
+
+    // Clean 
+    await stop();
+  });
+
+  it("can create a session", async () => {
+    // Arrange
+    await start();
+
+    // Act
+    await request("http://localhost:3000").post("/setup");
+    const response = await request("http://localhost:3000")
+      .post("/session")
+      .send({ login: 'admin', password: 'admin' })
+      .set('Accept', 'application/json')
+
+    // Assert: Http response
+    expect(response.statusCode).toBe(200);
+    const setCookieHeader = response.headers["set-cookie"][0];
+    expect(setCookieHeader).toContain("session=");
+    expect(setCookieHeader).toContain("HttpOnly");
+    expect(setCookieHeader.length).toBeGreaterThan(256);
+
+    // Clean 
+    await stop();
+  });
+});

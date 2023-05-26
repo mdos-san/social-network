@@ -1,9 +1,9 @@
 {
-  "name": "domain",
+  "name": "core",
   "version": "1.0.0",
   "description": "",
-  "main": "./build/index.js",
-  "types": "./types/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest"
@@ -23,6 +23,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "api": "file:../api",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "database": "file:../database",
