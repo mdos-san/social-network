@@ -1,5 +1,4 @@
 import { Database } from "database";
-import bcrypt from 'bcrypt';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import { Server } from "http";
@@ -58,3 +57,9 @@ export async function closeServer() {
   await Database.close();
   server.close();
 }
+
+export * from "./CreateSessionFeature";
+export * from "./CreateDefaultAdminFeature";
+export * from "./DatabaseProvider";
+export * from "./UserRepository";
+export * from "./SessionRepository";

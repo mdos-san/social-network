@@ -1,5 +1,5 @@
+import { UserModel, UserRepository } from "domain/types";
 import { Db } from "mongodb";
-import { UserModel, UserRepository } from "../UserRepository";
 
 const COLLECTION = "user";
 

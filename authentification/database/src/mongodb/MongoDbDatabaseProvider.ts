@@ -1,10 +1,8 @@
 // TODO: init database connexion
 import { MongoClient } from 'mongodb';
-import { DatabaseProvider } from '../DatabaseProvider';
 import MongoDbSessionRepository from './MongoDbSessionRepository';
 import MongoDbUserRepository from './MongoDbUserRepository';
-import { SessionRepository } from '../SessionRepository';
-import { UserRepository } from '../UserRepository';
+import { DatabaseProvider, SessionRepository, UserRepository } from 'domain/types';
 
 let client: MongoClient;
 const DB = "authentification";

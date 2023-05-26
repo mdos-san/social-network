@@ -1,5 +1,5 @@
+import { SessionModel, SessionRepository } from "domain/types";
 import { Db } from "mongodb";
-import { SessionModel, SessionRepository } from "../SessionRepository";
 
 const COLLECTION = "session";
 
