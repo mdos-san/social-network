@@ -72,6 +72,22 @@ const ExpressApiProvider: ApiProvider = {
       }
     })
 
+    app.put('/password/:userId', async (req, res) => {
+      const { userId } = req.params;
+      const { password } = req.body;
+      const { session } = req.cookies;
+
+      try {
+        await features.changePassword(session, userId, password);
+        res.statusCode = 200;
+      } catch (e) {
+        console.error(e);
+        res.statusCode = 400;
+      } finally {
+        res.end();
+      }
+    })
+
     server = app.listen(port, () => {
       console.log(`Authentification module is running on port ${port}`)
     })

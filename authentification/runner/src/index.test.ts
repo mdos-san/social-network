@@ -109,4 +109,30 @@ describe("Module", () => {
     // Clean 
     await stop();
   });
+
+  it("can change a user password", async () => {
+    // Arrange
+    await start();
+
+    // Act
+    await request("http://localhost:3000").post("/setup");
+    const adminSessionRequest = await request("http://localhost:3000")
+      .post("/session")
+      .send({ login: 'admin', password: 'admin' })
+      .set('Accept', 'application/json')
+    await request("http://localhost:3000")
+      .put("/password/admin")
+      .set('Accept', 'application/json')
+      .set('Cookie', adminSessionRequest.headers['set-cookie'])
+      .send({ password: 'iLoveCats' })
+      .expect(200)
+    await request("http://localhost:3000")
+      .post("/session")
+      .send({ login: 'admin', password: 'iLoveCats' })
+      .set('Accept', 'application/json')
+      .expect(200);
+
+    // Clean 
+    await stop();
+  });
 });

@@ -4,6 +4,7 @@ import createDefaultAdminFeatureFactory from "./CreateDefaultAdminFeatureFactory
 import createSessionFeatureFactory from "./CreateSessionFeatureFactory";
 import deleteSessionFeatureFactory from "./DeleteSessionFeatureFactory";
 import { DatabaseProvider } from "./DatabaseProvider";
+import changePasswordFeatureFactory from "./ChangePasswordFeatureFactory";
 
 export default {
   init: (database: DatabaseProvider) => {
@@ -13,6 +14,7 @@ export default {
     features.createSession = createSessionFeatureFactory(database);
     features.deleteSession = deleteSessionFeatureFactory(database);
     features.adminCreateUser = adminCreateUserFeatureFactory(database);
+    features.changePassword = changePasswordFeatureFactory(database);
 
     return features;
   }
