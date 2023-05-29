@@ -5,6 +5,7 @@ export interface SessionModel {
 }
 
 export interface SessionRepository {
-  findSessionById: (sessionId: string) => Promise<SessionModel | null>,
+  findSessionById: (sessionId: SessionModel['sessionId']) => Promise<SessionModel | null>,
   createSession: (session: SessionModel) => Promise<boolean> // TODO: Error management ?
+  deleteSessionBySessionId: (userId: SessionModel['userId']) => Promise<boolean> // TODO: Error management ?
 }

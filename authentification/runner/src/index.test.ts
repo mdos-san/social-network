@@ -55,4 +55,26 @@ describe("Module", () => {
     // Clean 
     await stop();
   });
+
+  it("can delete a session", async () => {
+    // Arrange
+    await start();
+
+    // Act
+    await request("http://localhost:3000").post("/setup");
+    await request("http://localhost:3000")
+      .post("/session")
+      .send({ login: 'admin', password: 'admin' })
+      .set('Accept', 'application/json')
+    const response = await request("http://localhost:3000")
+      .delete("/session")
+
+    // Assert: Http response
+    expect(response.statusCode).toBe(200);
+    const setCookieHeader = response.headers["set-cookie"][0];
+    expect(setCookieHeader).toContain("session=;");
+
+    // Clean 
+    await stop();
+  });
 });

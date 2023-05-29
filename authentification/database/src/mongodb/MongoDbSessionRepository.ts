@@ -18,7 +18,11 @@ const MongoDbSessionRepository = (db: Db): SessionRepository => {
         console.error(e);
         return false;
       }
-    }
+    },
+    deleteSessionBySessionId: async (sessionId) => {
+      const deleteResult = await collection.deleteOne({ userId: sessionId });
+      return deleteResult.acknowledged;
+    },
   }
 }
 

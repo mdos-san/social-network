@@ -43,6 +43,21 @@ const ExpressApiProvider: ApiProvider = {
       res.end();
     })
 
+    app.delete('/session', async (req, res) => {
+      const { session } = req.cookies;
+
+      const { success } = await features.deleteSession(session);
+
+      if (success) {
+        res.statusCode = 200;
+        res.clearCookie('session');
+      } else {
+        res.statusCode = 400;
+      }
+
+      res.end();
+    })
+
     server = app.listen(port, () => {
       console.log(`Authentification module is running on port ${port}`)
     })
