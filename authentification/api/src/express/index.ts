@@ -1,5 +1,5 @@
 import cookieParser from "cookie-parser";
-import { Server} from "http";
+import { Server } from "http";
 import express from "express";
 import { ApiProvider } from "core";
 
@@ -31,16 +31,16 @@ const ExpressApiProvider: ApiProvider = {
     app.post('/session', async (req, res) => {
       const { login, password } = req.body;
 
-      const { success, sessionId } = await features.createSession(login, password);
-
-      if (success) {
+      try {
+        const { sessionId } = await features.createSession(login, password);
         res.statusCode = 200;
         res.cookie('session', sessionId, { maxAge: 900000, httpOnly: true });
-      } else {
+      } catch (e) {
+        console.error(e);
         res.statusCode = 400;
+      } finally {
+        res.end()
       }
-
-      res.end();
     })
 
     app.delete('/session', async (req, res) => {
@@ -58,10 +58,23 @@ const ExpressApiProvider: ApiProvider = {
       res.end();
     })
 
+    app.post('/user', async (req, res) => {
+      const { login, password } = req.body;
+      const { session } = req.cookies;
+
+      try {
+        await features.adminCreateUser(session, login, password);
+        res.statusCode = 200;
+      } catch (e) {
+        res.statusCode = 400;
+      } finally {
+        res.end();
+      }
+    })
+
     server = app.listen(port, () => {
       console.log(`Authentification module is running on port ${port}`)
     })
-
   },
   clean: async () => {
     server.close();

@@ -15,14 +15,12 @@ const createSessionFeatureFactory: CreateSessionFeatureFactory = (database) => a
   const userRepository = database.getRepositories().userRepository;
   const user = await userRepository.findUserByLogin(login);
   if (!user) {
-    result.success = false;
-    return result;
+    throw new Error(`Can't find the user: "${login}"`);
   }
 
   const isCorrect = await bcrypt.compare(password, user.password)
   if (!isCorrect) {
-    result.success = false;
-    return result;
+    throw new Error(`Password is incorrect`);
   }
 
   const sessionRepository = database.getRepositories().sessionRepository;

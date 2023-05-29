@@ -77,4 +77,36 @@ describe("Module", () => {
     // Clean 
     await stop();
   });
+
+  it("can create a user", async () => {
+    // Arrange
+    await start();
+
+    // Act
+    await request("http://localhost:3000").post("/setup");
+    const adminSessionRequest = await request("http://localhost:3000")
+      .post("/session")
+      .send({ login: 'admin', password: 'admin' })
+      .set('Accept', 'application/json')
+    await request("http://localhost:3000")
+      .post("/user")
+      .set('Accept', 'application/json')
+      .set('Cookie', adminSessionRequest.headers['set-cookie'])
+      .send({ login: 'plume', password: 'iLoveCats' })
+      .expect(200)
+    await request("http://localhost:3000")
+      .post("/user")
+      .set('Accept', 'application/json')
+      .set('Cookie', adminSessionRequest.headers['set-cookie'])
+      .send({ login: 'plume', password: 'iLoveCats' })
+      .expect(400)
+    await request("http://localhost:3000")
+      .post("/session")
+      .set('Accept', 'application/json')
+      .send({ login: 'plume', password: 'iLoveCats' })
+      .expect(200)
+
+    // Clean 
+    await stop();
+  });
 });
