@@ -6,20 +6,15 @@ import bcrypt from 'bcrypt';
 const saltRounds = 10;
 
 const adminCreateUserFeatureFactory: AdminCreateUserFeatureFactory =
-  (database) =>
+  (features, database) =>
     async (sessionId, login, password) => {
       const result: AdminCreateUserFeatureResult = {
         success: true,
       }
 
-      const sessionRepository = database.getRepositories().sessionRepository;
-      const session = await sessionRepository.findSessionById(sessionId)
-      if (!session) {
-        throw new Error("Can't find session")
-      }
+      const { user } = await features.resolveUserFromSessionId(sessionId);
 
-      // TODO: session.permission
-      if (session.userId !== "admin") {
+      if (!user.scopes.has("admin")) {
         throw new Error("Only admin is allowed to do this operation")
       }
 
@@ -28,8 +23,8 @@ const adminCreateUserFeatureFactory: AdminCreateUserFeatureFactory =
       }
 
       const userRepositories = database.getRepositories().userRepository;
-      const user = await userRepositories.findUserByLogin(login);
-      if (user) {
+      const newUser = await userRepositories.findUserByLogin(login);
+      if (newUser) {
         throw new Error(`User '${login}' already exist`)
       }
 
@@ -38,6 +33,7 @@ const adminCreateUserFeatureFactory: AdminCreateUserFeatureFactory =
         id: v4(),
         login,
         password: hashedPassword,
+        scopes: new Set(),
       });
       if (!success) {
         throw new Error(`Can't create user ${login}`)

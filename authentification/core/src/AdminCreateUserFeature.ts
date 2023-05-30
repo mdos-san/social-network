@@ -1,4 +1,5 @@
 import { DatabaseProvider } from "./DatabaseProvider";
+import Features from "./Features";
 import { SessionModel } from "./SessionRepository";
 import { UserModel } from "./UserRepository";
 
@@ -11,5 +12,5 @@ export interface AdminCreateUserFeature {
 }
 
 export interface AdminCreateUserFeatureFactory {
-  (database: DatabaseProvider):  AdminCreateUserFeature
+  (features: Features, database: DatabaseProvider):  AdminCreateUserFeature
 }

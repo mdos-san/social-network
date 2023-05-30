@@ -24,6 +24,7 @@ const createDefaultAdminFeatureFactory: CreateDefaultAdminFeatureFactory =
         id: "admin",
         login: "admin",
         password: hashPassword,
+        scopes: new Set(["admin"]),
       })
 
       return result;

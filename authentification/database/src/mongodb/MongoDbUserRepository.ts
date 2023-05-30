@@ -8,10 +8,22 @@ const MongoDbUserRepository = (db: Db): UserRepository => {
 
   return {
     findUserByLogin: async (login) => {
-      return collection.findOne<UserModel>({ login });
+      const doc = await collection.findOne<UserModel>({ login });
+      if (doc === null) {
+        return null;
+      }
+
+      doc.scopes = new Set(doc.scopes);
+      return doc;
     },
     findUserByUserId: async (userId) => {
-      return collection.findOne<UserModel>({ id: userId });
+      const doc = await collection.findOne<UserModel>({ id: userId });
+      if (doc === null) {
+        return null;
+      }
+
+      doc.scopes = new Set(doc.scopes);
+      return doc;
     },
     changePasswordForUserId: async (userId, password) => {
       const result = await collection.updateOne({ id: userId }, { $set: { password } });
@@ -19,7 +31,7 @@ const MongoDbUserRepository = (db: Db): UserRepository => {
     },
     createUser: async (user) => {
       try {
-        const result = await collection.insertOne(user);
+        const result = await collection.insertOne({ ...user, scopes: Array.from(user.scopes) });
         return result.acknowledged;
       } catch (e) {
         console.error(e);
