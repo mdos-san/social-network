@@ -1,6 +1,6 @@
-import Features from "./Features";
-import UserInfo from "./UserInfo";
-import { SessionModel } from "./SessionRepository";
+import { Features } from "Features";
+import UserInfo from "UserInfo";
+import { SessionModel } from "SessionRepository";
 
 export interface GetUserInfoFeatureResult {
   success: boolean;
@@ -12,5 +12,5 @@ export interface GetUserInfoFeature {
 }
 
 export interface GetUserInfoFeatureFactory {
-  (features: Features):  GetUserInfoFeature
+  (features: Features): GetUserInfoFeature
 }

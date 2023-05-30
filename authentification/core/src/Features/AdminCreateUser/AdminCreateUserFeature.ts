@@ -1,7 +1,7 @@
-import { DatabaseProvider } from "./DatabaseProvider";
-import Features from "./Features";
-import { SessionModel } from "./SessionRepository";
-import { UserModel } from "./UserRepository";
+import { DatabaseProvider } from "Providers";
+import { Features } from "Features";
+import { UserModel } from "UserRepository";
+import { SessionModel } from "SessionRepository";
 
 export interface AdminCreateUserFeatureResult {
   success: boolean;

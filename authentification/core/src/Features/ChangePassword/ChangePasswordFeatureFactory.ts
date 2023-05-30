@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 // TODO: No global var
 const saltRounds = 10;
 
-const changePasswordFeatureFactory: ChangePasswordFeatureFactory =
+export const changePasswordFeatureFactory: ChangePasswordFeatureFactory =
   (database) =>
     async (sessionId, userId, newPassword) => {
       const result: ChangePasswordFeatureResult = {
@@ -40,4 +40,3 @@ const changePasswordFeatureFactory: ChangePasswordFeatureFactory =
       return result;
     }
 
-export default changePasswordFeatureFactory;

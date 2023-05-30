@@ -1,5 +1,5 @@
-import { DatabaseProvider } from "./DatabaseProvider";
-import { SessionModel } from "./SessionRepository";
+import { DatabaseProvider } from "Providers";
+import { SessionModel } from "SessionRepository";
 
 export interface DeleteSessionsFeatureResult {
   success: boolean;

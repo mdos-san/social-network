@@ -1,6 +1,6 @@
 import { GetUserInfoFeatureFactory, GetUserInfoFeatureResult } from "./GetUserInfoFeature";
 
-const getUserInfoFeatureFactory: GetUserInfoFeatureFactory =
+export const getUserInfoFeatureFactory: GetUserInfoFeatureFactory =
   (features) =>
     async (sessionId) => {
 
@@ -17,4 +17,3 @@ const getUserInfoFeatureFactory: GetUserInfoFeatureFactory =
       return result;
     }
 
-export default getUserInfoFeatureFactory;

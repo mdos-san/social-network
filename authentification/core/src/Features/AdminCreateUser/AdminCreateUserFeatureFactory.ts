@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 // TODO: No global var
 const saltRounds = 10;
 
-const adminCreateUserFeatureFactory: AdminCreateUserFeatureFactory =
+export const adminCreateUserFeatureFactory: AdminCreateUserFeatureFactory =
   (features, database) =>
     async (sessionId, login, password) => {
       const result: AdminCreateUserFeatureResult = {
@@ -42,4 +42,3 @@ const adminCreateUserFeatureFactory: AdminCreateUserFeatureFactory =
       return result;
     }
 
-export default adminCreateUserFeatureFactory;

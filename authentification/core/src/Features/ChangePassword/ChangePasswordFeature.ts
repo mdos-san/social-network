@@ -1,6 +1,6 @@
-import { DatabaseProvider } from "./DatabaseProvider";
-import { SessionModel } from "./SessionRepository";
-import { UserModel } from "./UserRepository";
+import { DatabaseProvider } from "Providers";
+import { SessionModel } from "SessionRepository";
+import { UserModel } from "UserRepository";
 
 export interface ChangePasswordFeatureResult {
   success: boolean;

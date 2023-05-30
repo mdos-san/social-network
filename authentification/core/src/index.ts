@@ -1,12 +1,5 @@
-import Features from "./Features";
-import adminCreateUserFeatureFactory from "./AdminCreateUserFeatureFactory";
-import changePasswordFeatureFactory from "./ChangePasswordFeatureFactory";
-import createDefaultAdminFeatureFactory from "./CreateDefaultAdminFeatureFactory";
-import createSessionFeatureFactory from "./CreateSessionFeatureFactory";
-import deleteSessionFeatureFactory from "./DeleteSessionFeatureFactory";
-import { DatabaseProvider } from "./DatabaseProvider";
-import resolveUserFromSessionIdFeatureFactory from "./ResolveUserFromSessionIdFeatureFactory";
-import getUserInfoFeatureFactory from "./GetUserInfoFeatureFactory";
+import { Features, adminCreateUserFeatureFactory, changePasswordFeatureFactory, createDefaultAdminFeatureFactory, createSessionFeatureFactory, deleteSessionFeatureFactory, getUserInfoFeatureFactory, resolveUserFromSessionIdFeatureFactory } from "./Features";
+import { DatabaseProvider } from "./Providers";
 
 export default {
   init: (database: DatabaseProvider) => {
@@ -24,10 +17,7 @@ export default {
   }
 }
 
-// Database
-export * from "./DatabaseProvider";
 export * from "./UserRepository";
 export * from "./SessionRepository";
+export * from "./Providers";
 
-// Api
-export * from "./ApiProvider";

@@ -6,7 +6,7 @@ function randomString(length: number) {
   return randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
 }
 
-const createSessionFeatureFactory: CreateSessionFeatureFactory = (database) => async (login, password) => {
+export const createSessionFeatureFactory: CreateSessionFeatureFactory = (database) => async (login, password) => {
   const result: CreateSessionFeatureResult = {
       success: true,
       sessionId: ""
@@ -37,4 +37,3 @@ const createSessionFeatureFactory: CreateSessionFeatureFactory = (database) => a
   return result;
 }
 
-export default createSessionFeatureFactory;

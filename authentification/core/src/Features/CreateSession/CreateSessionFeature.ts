@@ -1,4 +1,4 @@
-import { DatabaseProvider } from "./DatabaseProvider";
+import { DatabaseProvider } from "Providers";
 
 export interface CreateSessionFeatureResult {
   success: boolean;

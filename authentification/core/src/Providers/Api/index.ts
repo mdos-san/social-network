@@ -1,4 +1,4 @@
-import Features from "./Features"
+import { Features } from "Features";
 
 export interface ApiProvider {
   setup: (feature: Features) => Promise<void>

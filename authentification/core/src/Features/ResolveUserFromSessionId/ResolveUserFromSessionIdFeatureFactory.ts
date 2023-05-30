@@ -1,6 +1,6 @@
 import { ResolveUserFromSessionIdFeatureFactory, ResolveUserFromSessionIdFeatureResult } from "./ResolveUserFromSessionIdFeature";
 
-const resolveUserFromSessionIdFeatureFactory: ResolveUserFromSessionIdFeatureFactory =
+export const resolveUserFromSessionIdFeatureFactory: ResolveUserFromSessionIdFeatureFactory =
   (database) =>
     async (sessionId) => {
 
@@ -24,4 +24,3 @@ const resolveUserFromSessionIdFeatureFactory: ResolveUserFromSessionIdFeatureFac
       return result;
     }
 
-export default resolveUserFromSessionIdFeatureFactory;

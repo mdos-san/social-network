@@ -1,5 +1,5 @@
-import { SessionRepository } from "./SessionRepository"
-import { UserRepository } from "./UserRepository"
+import { SessionRepository } from "SessionRepository"
+import { UserRepository } from "UserRepository"
 
 export interface DatabaseProvider {
   init: () => Promise<void>;

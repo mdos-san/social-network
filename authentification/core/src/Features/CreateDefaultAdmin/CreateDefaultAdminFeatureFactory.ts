@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 // TODO: No global var
 const saltRounds = 10;
 
-const createDefaultAdminFeatureFactory: CreateDefaultAdminFeatureFactory =
+export const createDefaultAdminFeatureFactory: CreateDefaultAdminFeatureFactory =
   (database) =>
     async () => {
       const result: CreateDefaultAdminFeatureResult = {
@@ -30,4 +30,3 @@ const createDefaultAdminFeatureFactory: CreateDefaultAdminFeatureFactory =
       return result;
     }
 
-export default createDefaultAdminFeatureFactory;
