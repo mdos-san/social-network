@@ -135,4 +135,26 @@ describe("Module", () => {
     // Clean 
     await stop();
   });
+
+  it("can get userinfo", async () => {
+    // Arrange
+    await start();
+
+    // Act
+    await request("http://localhost:3000").post("/setup");
+    const adminSessionRequest = await request("http://localhost:3000")
+      .post("/session")
+      .send({ login: 'admin', password: 'iLoveCats' })
+      .set('Accept', 'application/json')
+    const response = await request("http://localhost:3000")
+      .get("/userinfo")
+      .set('Cookie', adminSessionRequest.headers['set-cookie'])
+
+
+    // Assert
+    expect(response.body.userId).toBe("admin");
+
+    // Clean 
+    await stop();
+  });
 });

@@ -3,6 +3,7 @@ import { ChangePasswordFeature } from "./ChangePasswordFeature";
 import { CreateDefaultAdminFeature } from "./CreateDefaultAdminFeature";
 import { CreateSessionFeature } from "./CreateSessionFeature";
 import { DeleteSessionFeature } from "./DeleteSessionFeature";
+import { GetUserInfoFeature } from "./GetUserInfoFeature";
 import { ResolveUserFromSessionIdFeature } from "./ResolveUserFromSessionIdFeature";
 
 export default interface Features {
@@ -12,4 +13,5 @@ export default interface Features {
   adminCreateUser: AdminCreateUserFeature,
   changePassword: ChangePasswordFeature,
   resolveUserFromSessionId: ResolveUserFromSessionIdFeature,
+  getUserInfo: GetUserInfoFeature;
 }

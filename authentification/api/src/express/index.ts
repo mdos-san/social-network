@@ -88,6 +88,21 @@ const ExpressApiProvider: ApiProvider = {
       }
     })
 
+    app.get('/userinfo', async (req, res) => {
+      const { session } = req.cookies;
+
+      try {
+        const { userinfo } = await features.getUserInfo(session);
+        res.statusCode = 200;
+        res.send(userinfo);
+      } catch (e) {
+        console.error(e);
+        res.statusCode = 400;
+      } finally {
+        res.end();
+      }
+    })
+
     server = app.listen(port, () => {
       console.log(`Authentification module is running on port ${port}`)
     })

@@ -24,11 +24,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "api": "file:../api",
     "bcrypt": "^5.1.0",
-    "cookie-parser": "^1.4.6",
-    "database": "file:../database",
-    "express": "^4.18.2",
     "uuid": "^9.0.0"
   }
 }
