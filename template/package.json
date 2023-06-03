@@ -1,0 +1,18 @@
+{
+  "name": "@mdos-san/authentication",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm-run-all build:core build:provider1 build:provider2 build:runner",
+    "build:core": "cd core && npm run build",
+    "build:provider1": "cd provider1 && npm run build",
+    "build:provider2": "cd provider2 && npm run build",
+    "build:runner": "cd runner && npm run build"
+  },
+  "author": "mdos-san",
+  "license": "ISC",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
