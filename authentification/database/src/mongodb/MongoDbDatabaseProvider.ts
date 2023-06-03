@@ -16,7 +16,8 @@ let repositories = {} as {
 const mongoDbDatabaseProvider: DatabaseProvider = {
   init: async () => {
     // TODO: Create indexes
-    client = new MongoClient("mongodb://127.0.0.1:27017");
+    const connexionString = process.env.DATABASE_CONNEXION_STRING || "mongodb://127.0.0.1:27017";
+    client = new MongoClient(connexionString);
     client.connect();
     const db = client.db(DB);
 

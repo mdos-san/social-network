@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker stop authentification_test_mongo
+docker rm authentification_test_mongo

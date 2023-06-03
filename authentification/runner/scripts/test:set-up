@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker run -p 27018:27017 --name authentification_test_mongo -d mongo
