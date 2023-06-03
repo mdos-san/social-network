@@ -1,23 +1,25 @@
 import request from 'supertest';
 import { start, stop } from "./index";
 
+beforeAll(async () => {
+    await start();
+})
+
+afterAll(async () => {
+    await stop();
+})
+
 describe("Module", () => {
   it("should be initialised", async () => {
-    await start();
-
     // Act
     const response = await request("http://localhost:3000")
       .get("/");
 
     expect(response.statusCode).toBe(200);
 
-    await stop();
   });
 
   it("can setup a default admin", async () => {
-    // Arrangement
-    await start();
-
     // Act
     const response = await request("http://localhost:3000")
       .post("/setup");
@@ -29,15 +31,9 @@ describe("Module", () => {
     await request("http://localhost:3000")
       .post("/setup")
       .expect(400);
-
-    // Clean 
-    await stop();
   });
 
   it("can create a session", async () => {
-    // Arrange
-    await start();
-
     // Act
     await request("http://localhost:3000").post("/setup");
     const response = await request("http://localhost:3000")
@@ -51,15 +47,9 @@ describe("Module", () => {
     expect(setCookieHeader).toContain("session=");
     expect(setCookieHeader).toContain("HttpOnly");
     expect(setCookieHeader.length).toBeGreaterThan(256);
-
-    // Clean 
-    await stop();
   });
 
   it("can delete a session", async () => {
-    // Arrange
-    await start();
-
     // Act
     await request("http://localhost:3000").post("/setup");
     await request("http://localhost:3000")
@@ -73,15 +63,9 @@ describe("Module", () => {
     expect(response.statusCode).toBe(200);
     const setCookieHeader = response.headers["set-cookie"][0];
     expect(setCookieHeader).toContain("session=;");
-
-    // Clean 
-    await stop();
   });
 
   it("can create a user", async () => {
-    // Arrange
-    await start();
-
     // Act
     await request("http://localhost:3000").post("/setup");
     const adminSessionRequest = await request("http://localhost:3000")
@@ -105,15 +89,9 @@ describe("Module", () => {
       .set('Accept', 'application/json')
       .send({ login: 'plume', password: 'iLoveCats' })
       .expect(200)
-
-    // Clean 
-    await stop();
   });
 
   it("can change a user password", async () => {
-    // Arrange
-    await start();
-
     // Act
     await request("http://localhost:3000").post("/setup");
     const adminSessionRequest = await request("http://localhost:3000")
@@ -131,15 +109,9 @@ describe("Module", () => {
       .send({ login: 'admin', password: 'iLoveCats' })
       .set('Accept', 'application/json')
       .expect(200);
-
-    // Clean 
-    await stop();
   });
 
   it("can get userinfo", async () => {
-    // Arrange
-    await start();
-
     // Act
     await request("http://localhost:3000").post("/setup");
     const adminSessionRequest = await request("http://localhost:3000")
@@ -153,8 +125,5 @@ describe("Module", () => {
 
     // Assert
     expect(response.body.userId).toBe("admin");
-
-    // Clean 
-    await stop();
   });
 });

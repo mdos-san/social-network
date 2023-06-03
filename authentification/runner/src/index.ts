@@ -9,7 +9,7 @@ export async function start() {
 }
 
 export async function stop() {
-  await Database.close();
   await Api.clean();
+  await Database.close();
 }
 
