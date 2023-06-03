@@ -4,7 +4,7 @@ import MongoDbProfileRepository from './MongoDbProfileRepository';
 import { DatabaseProvider, ProfileRepository } from 'core';
 
 let client: MongoClient;
-const DB = "authentification";
+const DB = "profile";
 
 let repositories = {} as {
   profileRepository: ProfileRepository,

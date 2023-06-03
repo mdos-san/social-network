@@ -21,6 +21,7 @@ const ExpressApiProvider: ApiProvider = {
         res.json({ profileId: result.profileId });
       } catch (e) {
         res.statusCode = 400;
+        console.error(e);
       } finally {
         res.end();
       }

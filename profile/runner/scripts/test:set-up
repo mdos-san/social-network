@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker run --net host --name test_authentification -d authentification
+docker run --net host --name test_mongo -d mongo
