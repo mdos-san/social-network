@@ -23,7 +23,10 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "api": "file:../api",
+    "authentification": "file:../authentification",
     "core": "file:../core",
+    "database": "file:../database",
     "provider1": "file:../provider1",
     "provider2": "file:../provider2"
   }
