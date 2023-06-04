@@ -8,7 +8,7 @@ let server = {} as Server;
 const ExpressApiProvider: ApiProvider = {
   setup: async (features) => {
     const app = express();
-    const port = process.env.API_PORT || 3000;
+    const port = process.env.AUTHENTIFICATION_API_PORT || 3000;
     app.use(express.json())
     app.use(cookieParser());
 
