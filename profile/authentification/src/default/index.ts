@@ -7,7 +7,8 @@ const DefaultAuthentificationProvider: AuthentificationProvider = {
   close: async () => {
   },
   getUserInfo: async (sessionId) => {
-    const response = await axios.get<UserInfo>("http://localhost:3000/userinfo", {
+    const authentification_url = process.env.PROFILE_AUTHENTIFICATION_URL || "http://localhost:3000";
+    const response = await axios.get<UserInfo>(`${authentification_url}/userinfo`, {
       headers: {
         Cookie: `session=${sessionId}`
       }
