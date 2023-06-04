@@ -3,6 +3,13 @@ import request from 'supertest';
 const authentification_url = "http://localhost:4000"
 const profile_url = "http://localhost:4001"
 
+async function requestAuthentificationSession(login: string, password: string) {
+  return await request(authentification_url)
+    .post("/session")
+    .send({ login, password })
+    .set('Accept', 'application/json')
+}
+
 describe("[MODULE]: Authentification", () => {
   it("should be initialised", async () => {
     // Act
@@ -10,7 +17,6 @@ describe("[MODULE]: Authentification", () => {
       .get("/");
 
     expect(response.statusCode).toBe(200);
-
   });
 
   it("can setup a default admin", async () => {
@@ -30,10 +36,7 @@ describe("[MODULE]: Authentification", () => {
   it("can create a session", async () => {
     // Act
     await request(authentification_url).post("/setup");
-    const response = await request(authentification_url)
-      .post("/session")
-      .send({ login: 'admin', password: 'admin' })
-      .set('Accept', 'application/json')
+    const response = await requestAuthentificationSession("admin", "admin");
 
     // Assert: Http response
     expect(response.statusCode).toBe(200);
@@ -46,10 +49,7 @@ describe("[MODULE]: Authentification", () => {
   it("can delete a session", async () => {
     // Act
     await request(authentification_url).post("/setup");
-    await request(authentification_url)
-      .post("/session")
-      .send({ login: 'admin', password: 'admin' })
-      .set('Accept', 'application/json')
+    await requestAuthentificationSession("admin", "admin");
     const response = await request(authentification_url)
       .delete("/session")
 
@@ -62,59 +62,44 @@ describe("[MODULE]: Authentification", () => {
   it("can create a user", async () => {
     // Act
     await request(authentification_url).post("/setup");
-    const adminSessionRequest = await request(authentification_url)
-      .post("/session")
-      .send({ login: 'admin', password: 'admin' })
-      .set('Accept', 'application/json')
+    const adminSessionResponse = await requestAuthentificationSession("admin", "admin");
     await request(authentification_url)
       .post("/user")
       .set('Accept', 'application/json')
-      .set('Cookie', adminSessionRequest.headers['set-cookie'])
+      .set('Cookie', adminSessionResponse.headers['set-cookie'])
       .send({ login: 'plume', password: 'iLoveCats' })
       .expect(200)
     await request(authentification_url)
       .post("/user")
       .set('Accept', 'application/json')
-      .set('Cookie', adminSessionRequest.headers['set-cookie'])
+      .set('Cookie', adminSessionResponse.headers['set-cookie'])
       .send({ login: 'plume', password: 'iLoveCats' })
       .expect(400)
-    await request(authentification_url)
-      .post("/session")
-      .set('Accept', 'application/json')
-      .send({ login: 'plume', password: 'iLoveCats' })
-      .expect(200)
+    const userSessionResponse = await requestAuthentificationSession("plume", "iLoveCats");
+    expect(userSessionResponse.statusCode).toBe(200);
   });
 
   it("can change a user password", async () => {
     // Act
     await request(authentification_url).post("/setup");
-    const adminSessionRequest = await request(authentification_url)
-      .post("/session")
-      .send({ login: 'admin', password: 'admin' })
-      .set('Accept', 'application/json')
+    const adminSessionResponse = await requestAuthentificationSession("admin", "admin");
     await request(authentification_url)
       .put("/password/admin")
       .set('Accept', 'application/json')
-      .set('Cookie', adminSessionRequest.headers['set-cookie'])
+      .set('Cookie', adminSessionResponse.headers['set-cookie'])
       .send({ password: 'iLoveCats' })
       .expect(200)
-    await request(authentification_url)
-      .post("/session")
-      .send({ login: 'admin', password: 'iLoveCats' })
-      .set('Accept', 'application/json')
-      .expect(200);
+    const adminWithNewPasswordSessionResponse = await requestAuthentificationSession("admin", "iLoveCats");
+    expect(adminWithNewPasswordSessionResponse.statusCode).toBe(200);
   });
 
   it("can get userinfo", async () => {
     // Act
     await request(authentification_url).post("/setup");
-    const adminSessionRequest = await request(authentification_url)
-      .post("/session")
-      .send({ login: 'admin', password: 'iLoveCats' })
-      .set('Accept', 'application/json')
+    const adminSessionResponse = await requestAuthentificationSession("admin", "iLoveCats");
     const response = await request(authentification_url)
       .get("/userinfo")
-      .set('Cookie', adminSessionRequest.headers['set-cookie'])
+      .set('Cookie', adminSessionResponse.headers['set-cookie'])
 
     // Assert
     expect(response.body.userId).toBe("admin");
@@ -126,10 +111,7 @@ describe("[MODULE]: Profile", () => {
     // Act
 
     // Log as admin
-    const adminSessionResponse = await request(authentification_url)
-      .post("/session")
-      .send({ login: 'admin', password: 'iLoveCats' })
-      .set('Accept', 'application/json')
+    const adminSessionResponse = await requestAuthentificationSession("admin", "iLoveCats");
     expect(adminSessionResponse.statusCode).toBe(200);
 
     // Create default profile
