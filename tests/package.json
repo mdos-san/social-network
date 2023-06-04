@@ -8,7 +8,7 @@
     "build": "tsc",
     "test": "npm-run-all -c test:setup test:code test:teardown",
     "test:setup": "./scripts/test:set-up",
-    "test:code": "jest --runInBand",
+    "test:code": "jest --runInBand --verbose",
     "test:teardown": "./scripts/test:tear-down"
   },
   "keywords": [],
