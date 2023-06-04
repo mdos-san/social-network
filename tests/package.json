@@ -1,0 +1,37 @@
+{
+  "name": "runner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm-run-all -c test:setup test:code test:teardown",
+    "test:setup": "./scripts/test:set-up",
+    "test:code": "jest --runInBand",
+    "test:teardown": "./scripts/test:tear-down"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.1",
+    "@types/supertest": "^2.0.12",
+    "jest": "^29.5.0",
+    "npm-run-all": "^4.1.5",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "api": "file:../api",
+    "authentification": "file:../authentification",
+    "core": "file:../core",
+    "database": "file:../database",
+    "provider1": "file:../provider1",
+    "provider2": "file:../provider2"
+  }
+}
