@@ -10,7 +10,8 @@
     "build:api": "cd api && npm run build",
     "build:authentification": "cd authentification && npm run build",
     "build:database": "cd database && npm run build",
-    "build:runner": "cd runner && npm run build"
+    "build:runner": "cd runner && npm run build",
+    "docker": "docker build -t profile ."
   },
   "author": "mdos-san",
   "license": "ISC",
