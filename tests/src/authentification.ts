@@ -1,14 +1,8 @@
 import request from 'supertest';
+import Config from "./config";
+import { requestAuthentificationSession } from './utils';
 
-const authentification_url = "http://localhost:4000"
-const profile_url = "http://localhost:4001"
-
-async function requestAuthentificationSession(login: string, password: string) {
-  return await request(authentification_url)
-    .post("/session")
-    .send({ login, password })
-    .set('Accept', 'application/json')
-}
+const { authentification_url } = Config;
 
 describe("[MODULE]: Authentification", () => {
   it("should be initialised", async () => {
@@ -91,12 +85,20 @@ describe("[MODULE]: Authentification", () => {
       .expect(200)
     const adminWithNewPasswordSessionResponse = await requestAuthentificationSession("admin", "iLoveCats");
     expect(adminWithNewPasswordSessionResponse.statusCode).toBe(200);
+
+    // Clean
+    await request(authentification_url)
+      .put("/password/admin")
+      .set('Accept', 'application/json')
+      .set('Cookie', adminSessionResponse.headers['set-cookie'])
+      .send({ password: 'admin' })
+      .expect(200)
   });
 
   it("can get userinfo", async () => {
     // Act
     await request(authentification_url).post("/setup");
-    const adminSessionResponse = await requestAuthentificationSession("admin", "iLoveCats");
+    const adminSessionResponse = await requestAuthentificationSession("admin", "admin");
     const response = await request(authentification_url)
       .get("/userinfo")
       .set('Cookie', adminSessionResponse.headers['set-cookie'])

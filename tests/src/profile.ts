@@ -1,21 +1,13 @@
 import request from 'supertest';
+import Config from './config';
+import { requestAuthentificationSession } from './utils';
 
-const authentification_url = "http://localhost:4000"
-const profile_url = "http://localhost:4001"
-
-async function requestAuthentificationSession(login: string, password: string) {
-  return await request(authentification_url)
-    .post("/session")
-    .send({ login, password })
-    .set('Accept', 'application/json')
-}
+const { profile_url } = Config;
 
 describe("[MODULE]: Profile", () => {
   it("can create a default profile", async () => {
-    // Act
-
     // Log as admin
-    const adminSessionResponse = await requestAuthentificationSession("admin", "iLoveCats");
+    const adminSessionResponse = await requestAuthentificationSession("admin", "admin");
     expect(adminSessionResponse.statusCode).toBe(200);
 
     // Create default profile
