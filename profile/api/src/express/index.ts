@@ -27,6 +27,22 @@ const ExpressApiProvider: ApiProvider = {
       }
     })
 
+    app.get('/profile', async (req, res) => {
+      const { session } = req.cookies;
+
+      try {
+        const result = await features.getProfile(session);
+        res.statusCode = 200;
+        res.json({ profile: result.profile });
+      } catch (e) {
+        res.statusCode = 400;
+        // TODO: status message
+        console.error(e);
+      } finally {
+        res.end();
+      }
+    })
+
     server = app.listen(port, () => {
       console.log(`Profile module is running on port ${port}`)
     })

@@ -2,6 +2,7 @@ import { createProfileFactory } from "Features/CreateProfile";
 import { Features, feature1Factory, feature2Factory, feature3Factory } from "./Features";
 import { DatabaseProvider, Provider1 } from "./Providers";
 import { AuthentificationProvider } from "Providers/Authentification";
+import { getProfileFactory } from "Features/GetProfile";
 
 export default {
   init: (provider1: Provider1, database: DatabaseProvider, authentification: AuthentificationProvider) => {
@@ -11,6 +12,7 @@ export default {
     features.feature2 = feature2Factory(features, provider1);
     features.feature3 = feature3Factory(features, provider1);
     features.createProfile = createProfileFactory(database, authentification);
+    features.getProfile = getProfileFactory(database, authentification);
 
     return features;
   }

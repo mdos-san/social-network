@@ -1,4 +1,5 @@
 import { ProfileRepository } from "core";
+import { Profile } from "core/dist/Features/CreateProfile";
 import { Db } from "mongodb";
 
 const COLLECTION = "profile";
@@ -10,6 +11,9 @@ const MongoDbProfileRepository = (db: Db): ProfileRepository => {
     createProfile: async (profile) => {
       await collection.insertOne(profile);
       return profile.id;
+    },
+    findProfileByUserId: async (userId) => {
+      return await collection.findOne<Profile>({ userId });
     },
   }
 }

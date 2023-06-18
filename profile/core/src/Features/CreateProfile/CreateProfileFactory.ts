@@ -1,4 +1,5 @@
 import { CreateProfileFactory } from ".";
+import { v4 } from "uuid";
 
 export const createProfileFactory: CreateProfileFactory = (database, authentification) =>
   async (sessionId) => {
@@ -6,7 +7,7 @@ export const createProfileFactory: CreateProfileFactory = (database, authentific
 
     const { profileRepository } = database.getRepositories()
     const profileId = await profileRepository.createProfile({
-      id: "blah", // uuid
+      id: v4(),
       userId: userInfo.userId,
       displayName: "",
       description: "",
