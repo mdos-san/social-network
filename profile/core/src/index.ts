@@ -1,16 +1,11 @@
-import { createProfileFactory } from "Features/CreateProfile";
-import { Features, feature1Factory, feature2Factory, feature3Factory } from "./Features";
-import { DatabaseProvider, Provider1 } from "./Providers";
+import { createProfileFactory, Features, getProfileFactory } from "./Features";
+import { DatabaseProvider } from "./Providers";
 import { AuthentificationProvider } from "Providers/Authentification";
-import { getProfileFactory } from "Features/GetProfile";
 
 export default {
-  init: (provider1: Provider1, database: DatabaseProvider, authentification: AuthentificationProvider) => {
+  init: (database: DatabaseProvider, authentification: AuthentificationProvider) => {
     let features = {} as Features;
 
-    features.feature1 = feature1Factory(features, provider1);
-    features.feature2 = feature2Factory(features, provider1);
-    features.feature3 = feature3Factory(features, provider1);
     features.createProfile = createProfileFactory(database, authentification);
     features.getProfile = getProfileFactory(database, authentification);
 

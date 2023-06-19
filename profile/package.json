@@ -5,6 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "postinstall": "npm-run-all postinstall:core postinstall:api postinstall:database postinstall:authentification postinstall:runner",
+    "postinstall:core": "cd core && npm install",
+    "postinstall:authentification": "cd authentification && npm install",
+    "postinstall:api": "cd api && npm install",
+    "postinstall:database": "cd database && npm install",
+    "postinstall:runner": "cd runner && npm install",
     "build": "npm-run-all build:core build:api build:authentification build:database build:runner",
     "build:core": "cd core && npm run build",
     "build:api": "cd api && npm run build",
