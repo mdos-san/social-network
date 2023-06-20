@@ -15,6 +15,9 @@ const MongoDbProfileRepository = (db: Db): ProfileRepository => {
     findProfileByUserId: async (userId) => {
       return await collection.findOne<Profile>({ userId });
     },
+    saveProfile: async (profile) => {
+      await collection.replaceOne({ id: profile.id }, profile);
+    },
   }
 }
 

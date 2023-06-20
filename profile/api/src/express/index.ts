@@ -43,6 +43,27 @@ const ExpressApiProvider: ApiProvider = {
       }
     })
 
+    app.put('/profile', async (req, res) => {
+      const { session } = req.cookies as { session: string };
+      const { displayName, description } = req.body;
+
+      try {
+        const result = await features.changeProfile({
+          sessionId: session,
+          displayName,
+          description,
+        });
+        res.statusCode = 200;
+        res.json({ profile: result.profile });
+      } catch (e: any) {
+        res.statusCode = 400;
+        // TODO: status message
+        console.error(e);
+      } finally {
+        res.end();
+      }
+    })
+
     server = app.listen(port, () => {
       console.log(`Profile module is running on port ${port}`)
     })

@@ -1,4 +1,4 @@
-import { createProfileFactory, Features, getProfileFactory } from "./Features";
+import { changeProfileFactory, createProfileFactory, Features, getProfileFactory } from "./Features";
 import { DatabaseProvider } from "./Providers";
 import { AuthentificationProvider } from "Providers/Authentification";
 
@@ -8,6 +8,7 @@ export default {
 
     features.createProfile = createProfileFactory(database, authentification);
     features.getProfile = getProfileFactory(database, authentification);
+    features.changeProfile = changeProfileFactory(database, authentification);
 
     return features;
   }
