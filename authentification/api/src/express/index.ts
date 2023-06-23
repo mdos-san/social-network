@@ -76,7 +76,7 @@ const setupChangePassword = (app: express.Express, features: Features) => {
     const { session } = req.cookies;
 
     try {
-      await features.changePassword(session, userId, password);
+      await features.changePassword({ sessionId: session, userId, newPassword: password });
       res.statusCode = 200;
     } catch (e) {
       console.error(e);

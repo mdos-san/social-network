@@ -6,7 +6,7 @@ const saltRounds = 10;
 
 export const changePasswordFeatureFactory: ChangePasswordFeatureFactory =
   (database) =>
-    async (sessionId, userId, newPassword) => {
+    async ({sessionId, userId, newPassword}) => {
       const result: ChangePasswordFeatureResult = {
         success: true,
       }

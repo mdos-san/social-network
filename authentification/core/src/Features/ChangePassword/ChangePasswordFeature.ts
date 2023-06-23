@@ -6,8 +6,14 @@ export interface ChangePasswordFeatureResult {
   success: boolean;
 }
 
+export interface ChangePasswordOptions {
+  sessionId: SessionModel['sessionId'];
+  userId: UserModel['login'];
+  newPassword: UserModel['password']
+}
+
 export interface ChangePasswordFeature {
-  (sessionId: SessionModel['sessionId'], userId: UserModel['login'], newPassword: UserModel['password']): Promise<ChangePasswordFeatureResult>
+  (options: ChangePasswordOptions): Promise<ChangePasswordFeatureResult>
 }
 
 export interface ChangePasswordFeatureFactory {
