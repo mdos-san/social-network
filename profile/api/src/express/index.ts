@@ -1,17 +1,11 @@
 import cookieParser from "cookie-parser";
 import express from "express";
-import { ApiProvider } from "core";
+import { ApiProvider, Features } from "core";
 import { Server } from "http";
 
 let server = {} as Server;
 
-const ExpressApiProvider: ApiProvider = {
-  init: async (features) => {
-    const app = express()
-    const port = process.env.PROFILE_API_PORT || 3001;
-    app.use(express.json())
-    app.use(cookieParser());
-
+const setupCreateProfileApi = (app: express.Express, features: Features) => {
     app.post('/profile', async (req, res) => {
       const { session } = req.cookies;
 
@@ -26,7 +20,9 @@ const ExpressApiProvider: ApiProvider = {
         res.end();
       }
     })
+}
 
+const setupGetProfileApi = (app: express.Express, features: Features) => {
     app.get('/profile', async (req, res) => {
       const { session } = req.cookies;
 
@@ -42,7 +38,9 @@ const ExpressApiProvider: ApiProvider = {
         res.end();
       }
     })
+}
 
+const setupChangeProfileApi = (app: express.Express, features: Features) => {
     app.put('/profile', async (req, res) => {
       const { session } = req.cookies as { session: string };
       const { displayName, description } = req.body;
@@ -63,6 +61,19 @@ const ExpressApiProvider: ApiProvider = {
         res.end();
       }
     })
+}
+
+
+const ExpressApiProvider: ApiProvider = {
+  init: async (features) => {
+    const app = express()
+    const port = process.env.PROFILE_API_PORT || 3001;
+    app.use(express.json())
+    app.use(cookieParser());
+
+    setupGetProfileApi(app, features);
+    setupChangeProfileApi(app, features);
+    setupCreateProfileApi(app, features);
 
     server = app.listen(port, () => {
       console.log(`Profile module is running on port ${port}`)
