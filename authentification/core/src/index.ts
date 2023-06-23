@@ -20,4 +20,5 @@ export default {
 export * from "./UserRepository";
 export * from "./SessionRepository";
 export * from "./Providers";
+export * from "./Features";
 
