@@ -6,24 +6,25 @@ const COLLECTION = "user";
 const MongoDbUserRepository = (db: Db): UserRepository => {
   const collection = db.collection(COLLECTION);
 
+  const findUserBy = async <
+    ModelKey extends keyof UserModel,
+    ModelValue extends UserModel[ModelKey]
+  > (modelKey: ModelKey, modelValue: ModelValue) => {
+    const doc = await collection.findOne<UserModel>({ [modelKey]: modelValue });
+    if (doc === null) {
+      return null;
+    }
+
+    doc.scopes = new Set(doc.scopes);
+    return doc;
+  }
+
   return {
     findUserByLogin: async (login) => {
-      const doc = await collection.findOne<UserModel>({ login });
-      if (doc === null) {
-        return null;
-      }
-
-      doc.scopes = new Set(doc.scopes);
-      return doc;
+      return findUserBy("login", login);
     },
-    findUserByUserId: async (userId) => {
-      const doc = await collection.findOne<UserModel>({ id: userId });
-      if (doc === null) {
-        return null;
-      }
-
-      doc.scopes = new Set(doc.scopes);
-      return doc;
+    findUserByUserId: async (id) => {
+      return findUserBy("id", id);
     },
     changePasswordForUserId: async (userId, password) => {
       const result = await collection.updateOne({ id: userId }, { $set: { password } });
