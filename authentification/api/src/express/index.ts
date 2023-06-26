@@ -26,7 +26,7 @@ const setupCreateSession = (app: express.Express, features: Features) => {
     try {
       const { sessionId } = await features.createSession(login, password);
       res.statusCode = 200;
-      res.cookie('session', sessionId, { maxAge: 900000, httpOnly: true });
+      res.cookie('session', sessionId, { maxAge: 900000, httpOnly: true, sameSite: "none", secure: true, domain: "127.0.0.1" });
     } catch (e) {
       console.error(e);
       res.statusCode = 400;
